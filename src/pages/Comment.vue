@@ -12,12 +12,8 @@
       return {}
     },
     created() {
-      this.getData()
     },
     methods: {
-      getData() {
-
-      },
       submit(html){
         console.log(html)
       }

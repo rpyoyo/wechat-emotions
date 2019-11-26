@@ -31,12 +31,8 @@
       }
     },
     created() {
-      this.getData()
     },
     methods: {
-      getData() {
-
-      },
       choose(emoji) {
         this.content = this.$refs.comment.innerHTML + `<div class="emoji emoji-${emoji}" contenteditable="false"></div>`;
         this.$nextTick(()=>{
