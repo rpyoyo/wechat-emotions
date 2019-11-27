@@ -13,8 +13,8 @@
     </div>
     <div class="emotions" v-show="show">
       <div class="emotions-wrapper">
-        <div class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
-             @click="choose(emoji)"></div>
+        <i class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
+             @click="choose(emoji)"></i>
       </div>
     </div>
   </div>
@@ -34,13 +34,13 @@
     },
     methods: {
       choose(emoji) {
-        this.content = this.$refs.comment.innerHTML + `<div class="emoji emoji-${emoji}" contenteditable="false"></div>`;
+        this.content = this.$refs.comment.innerHTML + `<i class="emoji emoji-${emoji}" contenteditable="false"></i>`;
         this.$nextTick(()=>{
           this.keepLastIndex(this.$refs.comment);
         });
       },
       submit() {
-        this.$emit("submit", this.$refs.comment.innerHTML);
+        this.$emit("submit", this.$refs.comment.innerHTML.replace(/contenteditable="false"/g, "").trim());
         this.$refs.comment.innerHTML = "";
       },
       keepLastIndex(obj) {
@@ -64,6 +64,8 @@
   .comment-input-wrapper {
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     background-color: #F7F8FC;
 
