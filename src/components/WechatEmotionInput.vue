@@ -80,15 +80,19 @@
       },
       open() {
         this.show = true;
-        this.$nextTick(() => {
+        setTimeout(()=>{
           window.scrollTo(window.scrollX, window.scrollY + 1);
-        });
+          window.scrollTo(window.scrollX, window.scrollY - 1);
+          this.$refs.comment.scrollIntoView()
+        }, 100);
       },
       close() {
         this.show = false;
-        this.$nextTick(() => {
+        setTimeout(()=>{
           window.scrollTo(window.scrollX, window.scrollY + 1);
-        });
+          window.scrollTo(window.scrollX, window.scrollY - 1);
+          this.$refs.comment.scrollIntoView()
+        }, 100);
       },
       isIOS() {
         return !!window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端

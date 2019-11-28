@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-content" @resize="resize">
+  <div class="comments-content">
     <div class="comment" v-for="({name, content, datetime, avatar, replies, showAll}, cidx) in comments" :key="cidx">
       <img :src="avatar" class="avatar" alt="">
       <div class="comment-info">
@@ -112,11 +112,6 @@
       },
       toggle(index){
         this.comments[index].showAll = !this.comments[index].showAll;
-      },
-      resize(){
-        this.nextTick(()=>{
-          window.scrollTo(window.scrollX, window.scrollY + 1);
-        })
       }
     }
   }
