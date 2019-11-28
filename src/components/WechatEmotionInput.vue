@@ -55,6 +55,9 @@
         if(content.length > 0){
           content = content.replace(/\[([^\[\]]*)\]/g, (match)=>{
             let emoji = this.map2[match.slice(1, -1)];
+            if(emoji === undefined){
+              return match
+            }
             return `<i class="emoji emoji-${emoji}"></i>`
           })
         }
