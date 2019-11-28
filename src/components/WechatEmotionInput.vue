@@ -1,26 +1,30 @@
 <template>
-  <div class="comment-input-wrapper">
-    <div class="comment-input">
-      <div class="div-input-area-wrapper">
-        <div ref="comment" class="div-input-area" contenteditable="true" spellcheck="false" tabindex="1" data-placeholder="写评论..."
-             v-html="content"></div>
+  <div>
+    <div class="comment-input-wrapper">
+      <div class="comment-input">
+        <div class="div-input-area-wrapper">
+          <div ref="comment" class="div-input-area" contenteditable="true" spellcheck="false" tabindex="1" data-placeholder="写评论..."
+               v-html="content" @focus="input"></div>
+        </div>
+        <div class="emotions-switch">
+          <i class="fa fa-emotions" @click="open" v-show="!show"></i>
+          <i class="fa fa-jianpan" @click="input" v-show="show"></i>
+        </div>
+        <div class="btn-submit bg-primary" @click="submit">提交</div>
       </div>
-      <div class="emotions-switch">
-        <i class="fa fa-emotions" @click="show = !show" v-show="!show"></i>
-        <i class="fa fa-jianpan" @click="show = !show" v-show="show"></i>
-      </div>
-      <div class="btn-submit bg-primary" @click="submit">提交</div>
-    </div>
-    <div class="emotions" v-show="show">
-      <div class="emotions-wrapper">
-        <i class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
+      <div class="emotions" v-show="show" ref="target">
+        <div class="emotions-wrapper">
+          <i class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
              @click="choose(emoji)"></i>
+        </div>
       </div>
     </div>
+<!--    <div class="emotion-backdrop" @touchmove.prevent v-show="show"></div>-->
   </div>
 </template>
 
 <script>
+  import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from "body-scroll-lock";
   export default {
     name: "WechatEmotionInput",
     data() {
@@ -32,9 +36,15 @@
     },
     created() {
     },
+    beforeDestroy(){
+      clearAllBodyScrollLocks();
+    },
     methods: {
       choose(emoji) {
         this.content = this.$refs.comment.innerHTML + `<i class="emoji emoji-${emoji}" contenteditable="false"></i>`;
+      },
+      input(){
+        this.close();
         this.$nextTick(()=>{
           this.keepLastIndex(this.$refs.comment);
         });
@@ -42,6 +52,7 @@
       submit() {
         this.$emit("submit", this.$refs.comment.innerHTML.replace(/contenteditable="false"/g, "").trim());
         this.$refs.comment.innerHTML = "";
+        this.hide();
       },
       keepLastIndex(obj) {
         if (window.getSelection) {
@@ -55,6 +66,14 @@
           range.collapse(false);
           range.select();
         }
+      },
+      open(){
+        this.show = true;
+        disableBodyScroll(this.$refs.target);
+      },
+      close(){
+        this.show = false;
+        enableBodyScroll(this.$refs.target);
       }
     }
   }
@@ -68,7 +87,8 @@
     right: 0;
     width: 100%;
     background-color: #F7F8FC;
-
+    z-index: 11;
+    -webkit-transform: translateZ(0);
     .comment-input {
       border-top: thin solid #cacaca;
       padding: 8px 15px;
@@ -145,5 +165,12 @@
       margin: 6px;
     }
   }
-
+  .emotion-backdrop{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
 </style>
