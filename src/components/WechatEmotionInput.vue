@@ -4,6 +4,7 @@
       <div class="div-input-area-wrapper">
         <div ref="comment" class="div-input-area" contenteditable="true" spellcheck="false" tabindex="1"
              data-placeholder="写评论..."
+             @focus="show=false"
              v-html="content"></div>
       </div>
       <div class="emotions-switch">
