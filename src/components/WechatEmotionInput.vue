@@ -24,7 +24,6 @@
 </template>
 
 <script>
-  import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from "body-scroll-lock";
   export default {
     name: "WechatEmotionInput",
     data() {
@@ -35,9 +34,6 @@
       }
     },
     created() {
-    },
-    beforeDestroy(){
-      clearAllBodyScrollLocks();
     },
     methods: {
       choose(emoji) {
@@ -69,11 +65,9 @@
       },
       open(){
         this.show = true;
-        disableBodyScroll(this.$refs.target);
       },
       close(){
         this.show = false;
-        enableBodyScroll(this.$refs.target);
       }
     }
   }
@@ -88,7 +82,7 @@
     width: 100%;
     background-color: #F7F8FC;
     z-index: 11;
-    -webkit-transform: translateZ(0);
+
     .comment-input {
       border-top: thin solid #cacaca;
       padding: 8px 15px;
