@@ -46,7 +46,7 @@
       submit() {
         this.$emit("submit", this.$refs.comment.innerHTML.replace(/contenteditable="false"/g, "").trim());
         this.$refs.comment.innerHTML = "";
-        this.hide();
+        this.close();
       },
       keepLastIndex(editor) {
         if (window.getSelection) {
