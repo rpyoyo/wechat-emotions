@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <div class="comment-input-wrapper">
-      <div class="comment-input">
-        <div class="div-input-area-wrapper">
-          <div ref="comment" class="div-input-area" contenteditable="true" spellcheck="false" tabindex="1" data-placeholder="写评论..."
-               v-html="content" @focus="input"></div>
-        </div>
-        <div class="emotions-switch">
-          <i class="fa fa-emotions" @click="open" v-show="!show"></i>
-          <i class="fa fa-jianpan" @click="input" v-show="show"></i>
-        </div>
-        <div class="btn-submit bg-primary" @click="submit">提交</div>
+  <div class="comment-input-wrapper">
+    <div class="comment-input">
+      <div class="div-input-area-wrapper">
+        <div ref="comment" class="div-input-area" contenteditable="true" spellcheck="false" tabindex="1"
+             data-placeholder="写评论..."
+             v-html="content" @focus="input" @click="input"></div>
       </div>
-      <div class="emotions" v-show="show" ref="target">
-        <div class="emotions-wrapper">
-          <i class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
-             @click="choose(emoji)"></i>
-        </div>
+      <div class="emotions-switch">
+        <i class="fa fa-emotions" @click="open" v-show="!show"></i>
+        <i class="fa fa-jianpan" @click="input" v-show="show"></i>
+      </div>
+      <div class="btn-submit bg-primary" @click="submit">提交</div>
+    </div>
+    <div class="emotions" v-show="show" ref="target">
+      <div class="emotions-wrapper">
+        <i class="emoji" :class="`emoji-${emoji}`" contenteditable="false" v-for="emoji in emojis"
+           @click="choose(emoji)"></i>
       </div>
     </div>
-<!--    <div class="emotion-backdrop" @touchmove.prevent v-show="show"></div>-->
   </div>
 </template>
 
@@ -39,18 +37,18 @@
       choose(emoji) {
         this.content = this.$refs.comment.innerHTML + `<i class="emoji emoji-${emoji}" contenteditable="false"></i>`;
       },
-      input(){
+      input() {
         this.close();
-        this.$nextTick(()=>{
+        setTimeout(()=>{
           this.keepLastIndex(this.$refs.comment);
-        });
+        }, 50);
       },
       submit() {
         this.$emit("submit", this.$refs.comment.innerHTML.replace(/contenteditable="false"/g, "").trim());
         this.$refs.comment.innerHTML = "";
         this.hide();
       },
-      keepLastIndex(obj) {
+      keepLastIndex(editor) {
         if (window.getSelection) {
           obj.focus();
           let range = window.getSelection();
@@ -62,12 +60,22 @@
           range.collapse(false);
           range.select();
         }
+        // debugger
+        // var last = editor.body.find('p, li, pre, h1, h2, h3, h4, td').last();
+        // editor.focus();
+        // editor.selection.setRangeAtEndOf(last);
       },
-      open(){
+      open() {
         this.show = true;
+        this.$nextTick(() => {
+          window.scrollTo(window.scrollX, window.scrollY + 1);
+        });
       },
-      close(){
+      close() {
         this.show = false;
+        this.$nextTick(() => {
+          window.scrollTo(window.scrollX, window.scrollY + 1);
+        });
       }
     }
   }
@@ -106,9 +114,14 @@
           word-break: break-all;
           max-height: 80px;
           overflow: auto;
-          -webkit-user-select: text;
+          user-select: auto;
+          -webkit-user-select: auto;
           outline: none;
 
+          *{
+            user-select: auto;
+            -webkit-user-select:auto;
+          }
           &:empty:before {
             content: attr(data-placeholder);
             color: #cacaca;
@@ -146,6 +159,8 @@
     height: 220px;
     overflow-y: auto;
     overflow-x: hidden;
+    user-select: none;
+    -webkit-user-select: none;
 
     .emotions-wrapper {
       margin: 0 auto;
@@ -159,7 +174,8 @@
       margin: 6px;
     }
   }
-  .emotion-backdrop{
+
+  .emotion-backdrop {
     position: fixed;
     top: 0;
     bottom: 0;
