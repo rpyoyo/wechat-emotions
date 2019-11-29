@@ -1,35 +1,38 @@
 <template>
-  <div class="comments-content">
-    <div class="comment" v-for="({name, content, datetime, avatar, replies, showAll}, cidx) in comments" :key="cidx">
-      <img :src="avatar" class="avatar" alt="">
-      <div class="comment-info">
-        <div class="flex-align-center flex-space-between">
-          <div>
-            <p class="fs-14 tc-3">{{name}}</p>
-            <p class="fs-13 tc-9">{{datetime}}</p>
+  <div class="flex flex-column full-scroll">
+    <div class="comments-content">
+      <div class="comment" v-for="({name, content, datetime, avatar, replies, showAll}, cidx) in comments" :key="cidx">
+        <img :src="avatar" class="avatar" alt="">
+        <div class="comment-info">
+          <div class="flex-align-center flex-space-between">
+            <div>
+              <p class="fs-14 tc-3">{{name}}</p>
+              <p class="fs-13 tc-9">{{datetime}}</p>
+            </div>
+            <i class="fa fa-message l tc-9"></i>
           </div>
-          <i class="fa fa-message l tc-9"></i>
-        </div>
-        <div class="comment-content" v-html="content"></div>
+          <div class="comment-content" v-html="content"></div>
 
-        <div class="replies" :class="showAll ? 'all' : ''" v-if="replies.length > 0">
-          <div class="reply-content" v-for="({name, content}, ridx) in replies" :key="ridx">
-            <span>{{name}}: </span>
-            <div v-html="content" class="d-inline"></div>
-          </div>
-          <div class="reply-toggle" v-show="!showAll && replies.length > 2">
-            <em class="more" @click="toggle(cidx)">共{{replies.length}}条回复 <i
-              class="fa fa-arrow-bottom"></i></em>
-          </div>
-          <div class="reply-toggle" v-show="showAll && replies.length > 2">
-            共{{replies.length}}条回复 <em class="less" @click="toggle(cidx)">收起 <i
-            class="fa fa-arrow-top"></i></em>
+          <div class="replies" :class="showAll ? 'all' : ''" v-if="replies.length > 0">
+            <div class="reply-content" v-for="({name, content}, ridx) in replies" :key="ridx">
+              <span>{{name}}: </span>
+              <div v-html="content" class="d-inline"></div>
+            </div>
+            <div class="reply-toggle" v-show="!showAll && replies.length > 2">
+              <em class="more" @click="toggle(cidx)">共{{replies.length}}条回复 <i
+                class="fa fa-arrow-bottom"></i></em>
+            </div>
+            <div class="reply-toggle" v-show="showAll && replies.length > 2">
+              共{{replies.length}}条回复 <em class="less" @click="toggle(cidx)">收起 <i
+              class="fa fa-arrow-top"></i></em>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <wechat-emotion-input @submit="submit"/>
   </div>
+
 </template>
 
 <script>
@@ -118,8 +121,16 @@
 </script>
 
 <style lang="less" scoped>
+  .full-scroll{
+    height: 100%;
+    overflow: auto;
+  }
   .comments-content {
-    padding: 10px 15px 100px 15px;
+    padding: 10px 15px 60px 15px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling:touch;
 
     .comment {
       padding: 15px 0;

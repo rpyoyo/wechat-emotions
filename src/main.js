@@ -36,10 +36,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-document.body.addEventListener("resize", ()=>{
-  setTimeout(()=>{
-    window.scrollTo(window.scrollX, window.scrollY + 1);
-    window.scrollTo(window.scrollX, window.scrollY - 1);
-  }, 100);
-});
