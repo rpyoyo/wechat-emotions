@@ -255,6 +255,7 @@
       },
       input() {
         this.close();
+        this.$refs.comment.focus();
         setTimeout(() => {
           this.keepLastIndex(this.$refs.comment);
         }, 100);
@@ -302,6 +303,7 @@
         setTimeout(() => {
           // window.scrollTo(window.scrollX, window.scrollY + 1);
           // window.scrollTo(window.scrollX, window.scrollY - 1);
+          window.scrollTo(0, 0);
           this.$refs.comment.scrollIntoView()
         }, 100);
       },
