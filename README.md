@@ -1,4 +1,4 @@
-# wechat-emotions-demo
+# wechat-emotions
 
 https://rpyoyo.github.io/wechat-emotions/
 
