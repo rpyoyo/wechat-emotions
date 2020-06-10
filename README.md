@@ -1,8 +1,8 @@
 # wechat-emotions-demo
 
-https://rpyoyo.github.io/wechat-emotions-demo/
+https://rpyoyo.github.io/wechat-emotions/
 
-> wechat-emotions-demo
+> wechat-emotions
 
 ## Build Setup
 
